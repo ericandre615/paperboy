@@ -68,5 +68,5 @@ The data/info will be passed to all listeners in those 3 topics!
    data is what you want to tell them, pass an object, array, string, whatever
  - **remove(topic)**: removes a topic from paperboy
  - **removeAll()**: no arguments, removes all topics from paperboy, clears everything!
- - **broadcast(data)**: 
+ - **broadcast(data)**: publish _data_ to all topics and listeners at once 
 
