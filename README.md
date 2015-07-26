@@ -12,6 +12,8 @@ Add paperboy.js script
 
     <script src="path/to/paperboy.js"></script>
 
+Or `<script src="path/to/paperboy.min.js"></script>`
+
 Works with Node.js
 
     var paperboy = require('paperboy') // installed via npm or
@@ -23,11 +25,11 @@ Example
         console.log('News update!', data);
     }); // subscribe our listener callback to the 'news' topic
 
-    paperboy.publish('news', 'This just in about News!');
+    paperboy.publish(['news'], 'This just in about News!'); // note previously you could use a string or array (now only arrays will work)
 
-    // the listener callback is called with the data that was published
-    // in the above example we output to console.log
-    // 'News update! This just in about News!'
+    /* the listener callback is called with the data that was published
+    ** in the above example we output to console.log
+    */ 'News update! This just in about News!'
 
 You can pass in anonymous functions to .subscribe as in the above example. However,
 there will be no reference to that listener to unsubscribe it later. If you need to unsubscribe
@@ -62,9 +64,9 @@ The data/info will be passed to all listeners in those 3 topics!
 
  - **subscribe(topic, listener)**: subscribe to a topic with the callback listener
  - **unsubscribe(topic, listener)**: unsubscribe / stop callback from listening to topic
- - **publish(topics, data)**: first argument is string for a topic or array of string for mulitple topics
+ - **publish(topics, data)**: first argument is an array of strings for mulitple topics
    data is what you want to tell them, pass an object, array, string, whatever
  - **remove(topic)**: removes a topic from paperboy
  - **removeAll()**: no arguments, removes all topics from paperboy, clears everything!
-
+ - **broadcast(data)**: 
 

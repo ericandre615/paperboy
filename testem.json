@@ -1,0 +1,8 @@
+{
+    "framework": "jasmine2",
+   
+    "src_files": [
+        "src/paperboy.js",
+        "tests/paperboySpec.js"
+    ]
+}

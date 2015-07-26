@@ -1,4 +1,4 @@
-(function(name, global, definition) {
+;(function(name, global, definition) {
     if(typeof module !== 'undefined' && module.exports) {
         module.exports = definition(name, global);
     } else {
@@ -11,7 +11,7 @@
 
         topics: {},        
 
-        subscribe: function(topic, listener) {
+        subscribe: function subscribe(topic, listener) {
             // check if the topic exists, if not create one
             if(!this.topics[topic]) {
                 this.topics[topic] = [];
@@ -21,7 +21,7 @@
             this.topics[topic].push(listener);
         },
         
-        unsubscribe: function(topic, listener) {
+        unsubscribe: function unsubscribe(topic, listener) {
             if(this.topics[topic] && this.topics[topic].length > 0) {
                 var topicListeners = this.topics[topic];
                 this.topics[topic].forEach(function(item, index) {
@@ -34,27 +34,38 @@
             return;
         },
 
-        remove: function(topic) {
+        remove: function remove(topic) {
             if(this.topics[topic]) {
                 delete this.topics[topic];
             }
             return;
         },
 
-        removeAll: function() {
+        removeAll: function removeAll() {
             this.topics = {};
         },
         
-        publish: function(topic, data) {
-            // if object assume array (only beause isArray does not work in IE < 9
-            if(typeof topic === 'object') {
+        publish: function publish(topic, data) { 
+            var topicType = Object.prototype.toString.call(topic);
+            if(topicType === '[object Array]') {
                 var noTopic = [];
+                // check if topic exists or has listeners
+                if(!this.topics[topic]) {
+                    throw new ReferenceError('this topic does not exist');
+                    return;
+                }
+
+                if(!this.topics[topic].length) {
+                    throw new ReferenceError('no listeners registered for this topic');
+                    return;
+                }
+
                 for(var i = 0, len = topic.length; i < len; i++) {
                     if(!this.topics[topic[i]]) {
                         noTopic.push(topic[i]);
                     }
 
-                    if(this.topics[topic[i]] && this.topics[topic[i]].length > 0) {
+                    if(this.topics[topic[i]] && this.topics[topic[i]].length) {
                         // notify all the listeners
                         this.topics[topic[i]].forEach(function(listener){
                             listener(data || {});
@@ -62,22 +73,25 @@
                     }
                 }
 
-                if(noTopic.length > 0) {
-                    console.log('Topics were not published: ', noTopic);
+                if(noTopic.length) {
+                    console.warn('Topics were not published: ', noTopic);
                 }
             } else {
-            
-                // check if topic exists or has listeners
-                if(!this.topics[topic]) {
-                    return new Error('this topic does not exist');
-                }
+                throw new TypeError('Expected first argument to be an Array instead got ', topicType);                
+                return;
+            }
+        },
 
-                if(this.topics[topic].length < 1) {
-                    return new Error('no listeners registered for this topic');
+        broadcast: function broadcast(data) {
+            var topicCollection = [];
+            for(var topic in this.topics) {
+                if(this.topics.hasOwnProperty(topic)) {
+                    topicCollection.push(topic);
                 }
+            };
 
-                // notify all the listeners
-                this.topics[topic].forEach(function(listener){
+            for(var i = 0, len = topicCollection.length; i < len; i++) {
+                this.topics[topicCollection[i]].forEach(function(listener){
                     listener(data || {});
                 });
             }
