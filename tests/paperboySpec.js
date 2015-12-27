@@ -1,9 +1,17 @@
 describe('paperboy', function() {
-  var mock_topic = 'news';
-  var mock_publish_data = 'published to this topic';
-  function mock_topic_callback(data) {
-    console.log(mock_topic + ': ' + data);
-  }
+    var mock_topic, mock_publish_data, mock_topic_callback;
+    beforeEach(function() {
+        mock_topic = 'news';
+        mock_publish_data = 'published to this topic';
+        mock_topic_callback = function mock_topic_callback(data) {
+            console.log(mock_topic + ': ' + data);
+        }
+    });
+    afterEach(function() {
+        mock_topic = undefined;
+        mock_publish_date = undefined;
+        mock_topic_callback = undefined;
+    });
 
     it('should exist', function() {
         expect(paperboy).toBeDefined();
@@ -28,15 +36,18 @@ describe('paperboy', function() {
         });
     });
     describe('publish', function() {
+        beforeEach(function() {
+             paperboy.subscribe(mock_topic, mock_topic_callback);
+        });
         it('should be defined', function() {
             expect(paperboy.publish).toBeDefined();
         });
         it('should be an own property of paperboy', function() {
             expect(paperboy.hasOwnProperty('publish')).toEqual(true);
         });
-        //it('should notify a topic with new data', function() {
-        //    expect(paperboy.publish([mock_topic], mock_publish_data)).toEqual(mock_topic + ': ' + mock_publish_data);
-        //});
+        it('should notify a topic with new data', function() { 
+            //expect(paperboy.publish([mock_topic], mock_publish_data)).toEqual(mock_topic + ': ' + mock_publish_data);
+        });
     });
     describe('broadcast', function() {
         it('should be defined', function() {

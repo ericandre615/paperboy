@@ -36,7 +36,7 @@
 
         remove: function remove(topic) {
             if(this.topics[topic]) {
-                delete this.topics[topic];
+                this.topics[topic] = null;
             }
             return;
         },
