@@ -1,10 +1,14 @@
 # Paperboy
+## ES2015 version
 
 A simple implementation of the Pub/Sub pattern for modern javsacript applications
 
 Publish/Subscribe is a variation on the traditional [observer pattern](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#observerpatternjavascript)
 It provides a loosely coupled notification system in which you subscribe to a topic and publish
 notifications to those topics. 
+
+## Build
+`npm run build`
 
 ## Usage
 
