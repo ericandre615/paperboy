@@ -7,7 +7,7 @@ module.exports = {
   devtool: "source-map",
   output: {
     path: "./dist",
-    filename: "paperyboy.js",
+    filename: "paperboy.min.js",
     publicPath:"/",
     libraaryTarget: "var",
     library: "paperboy"
